@@ -27,6 +27,7 @@ import UserPerfilUpdated from "./pages/UserPerfilUpdated";
 import CloseLogin from "./pages/CloseLogin";
 import CloseAllLogin from "./pages/CloseAllLogin";
 import AllRelatorios from "./pages/AllRelatorios";
+import Modal01 from "./partials/relatorio/modal/Modal01";
 
 function App() {
   //Variable that recognizes the user

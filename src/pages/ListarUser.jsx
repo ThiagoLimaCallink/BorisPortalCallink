@@ -29,7 +29,7 @@ const ListarUser = () => {
 
   useEffect(() => {
     handleList();
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, userList]);
 
   /**FUNCTION POST API THIAGO LIMA */
   const handleList = async () => {
