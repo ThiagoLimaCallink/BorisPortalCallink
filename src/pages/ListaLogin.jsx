@@ -11,6 +11,7 @@ const ListaLogin = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
   const [searchClicked, setSearchClicked] = useState(false);
+  const [filteredUserList, setFilteredUserList] = useState([]);
   /**BODY DA API */
   const requestApi = {
     escolha: "login",
@@ -29,10 +30,13 @@ const ListaLogin = () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
       const dados = response.data;
+
+      const filteredList = dados.filter(searchUser);
+      setUserlist(filteredList);
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const pagedUserList = dados.slice(startIndex, endIndex);
-      setUserlist(pagedUserList);
+      const pagedUserList = filteredList.slice(startIndex, endIndex);
+      setFilteredUserList(pagedUserList);
     } catch (err) {
       console.log(err);
     }
@@ -91,6 +95,13 @@ const ListaLogin = () => {
     }
     return true;
   };
+
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pagedUserList = userList.slice(startIndex, endIndex);
+    setFilteredUserList(pagedUserList);
+  }, [currentPage, itemsPerPage, userList]);
 
   return (
     <>

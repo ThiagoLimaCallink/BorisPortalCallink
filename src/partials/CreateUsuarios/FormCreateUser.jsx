@@ -1,10 +1,14 @@
-import React, { useState } from "react";
+/* IMAGENS */
 import boris from "../../images/borisImage/BorisLogoGradient.png";
+/* HOOKS */
 import { useForm } from "../../hooks/useFormHook";
+/* LIBS */
 import InputMask from "react-input-mask";
+/* AXIOS BASE URL */
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 
 const formCreateUser = () => {
+  /* END POINT DE CRIAÇÃO DE LOGIN */
   const { form, onChangeForm, resetForm } = useForm({
     nome: "",
     email: "",
@@ -15,12 +19,6 @@ const formCreateUser = () => {
     telefone: "",
     departamento: "",
   });
-
-  const useEffect =
-    (() => {
-      createFormUserBoris();
-    },
-    []);
 
   const dados = {
     escolha: "usuario",
@@ -207,7 +205,7 @@ const formCreateUser = () => {
                       <div className="inline-flex ">
                         <button
                           type="submit"
-                          className="bg-indigo-500 hover:bg-indigo-100  text-colorBoldIndigo font-bold py-2 px-8 rounded"
+                          className="bg-indigo-500 hover:bg-indigo-400  ease-out text-white font-bold py-2 px-8 rounded"
                         >
                           CRIAR
                         </button>

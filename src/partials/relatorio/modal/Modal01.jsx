@@ -1,8 +1,11 @@
+// HOOKS
 import React, { useState, useEffect } from "react";
-import axios from "axios";
+// COMPONENTS
 import ADM_RELATORIO_CALLINK from "../../../utils/axiosbaseurl/ADMRELATORIOCALLINK";
-
+//LIBS
+import { BarLoader } from "react-spinners";
 const Modal01 = () => {
+  // MODAL RELATORIO 01 FAZ REQUEST DA LISTA DE ACESSO
   const [userList, setUserList] = useState([]);
   const [filteredUserList, setFilteredUserList] = useState([]);
   const [searchItem, setSearchItem] = useState("");
@@ -23,7 +26,7 @@ const Modal01 = () => {
   /**HOOK REQUEST AUTOPLAY  API */
   useEffect(() => {
     handleList();
-  }, [currentPage, itemsPerPage, userList]);
+  }, [currentPage, itemsPerPage]);
   /******************************* */
 
   /**FUNCTION POST API THIAGO LIMA */

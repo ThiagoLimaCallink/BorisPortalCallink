@@ -16,6 +16,7 @@ const ListarUser = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(15);
   const [searchClicked, setSearchClicked] = useState(false);
+  const [filteredUserList, setFilteredUserList] = useState([]);
 
   /**BODY DA API */
 
@@ -29,17 +30,19 @@ const ListarUser = () => {
 
   useEffect(() => {
     handleList();
-  }, [currentPage, itemsPerPage, userList]);
+  }, [currentPage, itemsPerPage]);
 
   /**FUNCTION POST API THIAGO LIMA */
   const handleList = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
       const dados = response.data;
+      const filteredList = dados.filter(searchUser);
+      setUserlist(filteredList);
       const startIndex = (currentPage - 1) * itemsPerPage;
       const endIndex = startIndex + itemsPerPage;
-      const pagedUserList = dados.slice(startIndex, endIndex);
-      setUserlist(pagedUserList);
+      const pagedUserList = filteredList.slice(startIndex, endIndex);
+      setFilteredUserList(pagedUserList);
     } catch (err) {
       console.log(err);
     }
@@ -103,6 +106,13 @@ const ListarUser = () => {
     return true; // Retorna true por padrão se o botão de busca não foi clicado
   };
 
+  useEffect(() => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    const pagedUserList = userList.slice(startIndex, endIndex);
+    setFilteredUserList(pagedUserList);
+  }, [currentPage, itemsPerPage, userList]);
+
   return (
     <>
       <Helmet>
@@ -120,21 +130,21 @@ const ListarUser = () => {
               </h2>
             </header>
             <div>
-              <div class="font-sans text-black  bg-white flex items-center justify-center">
-                <div class="border rounded overflow-hidden flex">
+              <div className="font-sans text-black  bg-white flex items-center justify-center">
+                <div className="border rounded overflow-hidden flex">
                   <input
                     type="text"
-                    class="px-4 py-2"
+                    className="px-4 py-2"
                     placeholder="Pesquisar usuário"
                     value={searchItem}
                     onChange={(e) => setSearchItem(e.target.value)}
                   />
                   <button
                     onClick={() => setSearchClicked(true)}
-                    class="flex items-center justify-center px-4 border-l hover:bg-indigo-200 "
+                    className="flex items-center justify-center px-4 border-l hover:bg-indigo-200 "
                   >
                     <svg
-                      class="h-4 w-4 text-grey-dark"
+                      className="h-4 w-4 text-grey-dark"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
@@ -216,7 +226,7 @@ const ListarUser = () => {
                   </thead>
                   {/* Table body */}
                   <tbody className="text-sm divide-y divide-slate-400">
-                    {userList.filter(searchUser).map((user, index) => (
+                    {filteredUserList.filter(searchUser).map((user, index) => (
                       <tr key={index}>
                         <td className="p-2 whitespace-nowrap">
                           <div className="flex items-center">

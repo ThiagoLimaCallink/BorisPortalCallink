@@ -603,8 +603,8 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                   );
                 }}
               </SidebarLinkGroup>
-              {/* Finance */}
-              <SidebarLinkGroup activecondition={pathname.includes("finance")}>
+              {/* COMMENTS */}
+              {/* <SidebarLinkGroup activecondition={pathname.includes("finance")}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
@@ -657,7 +657,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               Relatorio & Informações
                             </span>
                           </div>
-                          {/* Icon */}
+                          //ICON
                           <div className="flex shrink-0 ml-2">
                             <svg
                               className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
@@ -689,10 +689,10 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
 
               {/* Tasks */}
-              <SidebarLinkGroup activecondition={pathname.includes("tasks")}>
+              {/* <SidebarLinkGroup activecondition={pathname.includes("tasks")}>
                 {(handleClick, open) => {
                   return (
                     <React.Fragment>
@@ -745,7 +745,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                               Tasks
                             </span>
                           </div>
-                          {/* Icon */}
+                          //ICON
                           <div className="flex shrink-0 ml-2">
                             <svg
                               className={`w-3 h-3 shrink-0 ml-1 fill-current text-slate-400 ${
@@ -781,7 +781,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                     </React.Fragment>
                   );
                 }}
-              </SidebarLinkGroup>
+              </SidebarLinkGroup> */}
             </ul>
           </div>
         </div>

@@ -27,7 +27,7 @@ function AllRelatorios() {
               {/** ACESSO POR USUÁRIO */}
               <Relatorio01 />
               {/** ACESSO POR CAMINHO */}
-              {/* <Relatorio02 /> */}
+              <Relatorio02 />
               {/** REPOSTA POR CAMPANHA */}
               {/* <Relatorio03 /> */}
               {/** ANÁLITICO DE ALERTA */}

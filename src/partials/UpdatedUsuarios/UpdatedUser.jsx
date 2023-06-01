@@ -1,10 +1,22 @@
+// IMAGENS
 import boris from "../../images/borisImage/BorisLogoGradient.png";
+// HOOKS
 import { useForm } from "../../hooks/useFormHook";
+import { useState, useEffect } from "react";
 import InputMask from "react-input-mask";
+// AXIOS BASE URL
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
+// REACT ICONS
 import { FcSearch } from "react-icons/fc";
 
+/******************************************************************* */
+
+/**************************************************************** 
+   FUNÇÃO ABAIXO FAZ O POST PARA API, PARA ATUALIZAR OS DADOS ! FAZEMOS MONITORAMENTO
+  DA FUNÇÃO USANDO USEEFFECT 
+  /************************************************************ */
 const UpdatedUser = () => {
+  const [dadoFilter, setDadosFilter] = useState([]);
   const { form, onChangeForm, resetForm } = useForm({
     nome: "",
     email: "",
@@ -16,12 +28,6 @@ const UpdatedUser = () => {
     telefone: "",
     departamento: "",
   });
-
-  const useEffect =
-    (() => {
-      UpdatedUsers();
-    },
-    []);
 
   const dados = {
     escolha: "usuario",
@@ -48,7 +54,6 @@ const UpdatedUser = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
 
         setInterval(() => {
           resetForm(form);
@@ -56,6 +61,70 @@ const UpdatedUser = () => {
       })
       .catch((err) => console.log(err));
   };
+
+  /****************************************************************** */
+
+  const requestApi = {
+    escolha: "login",
+    processo: "leitura",
+  };
+  useEffect(() => {
+    // Função para buscar os dados da API
+    const fetchDados = async () => {
+      try {
+        const response = await ADM_Gerenciamento.post("/", requestApi); // Substitua '/api/dados' pelo endpoint correto da sua API
+        setDadosFilter(response.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    // Chama a função de busca dos dados
+    fetchDados();
+  }, []);
+
+  const handleSearch = () => {
+    // Realize o filtro dos dados com base no ID digitado
+    const filteredData = dadoFilter.filter(
+      (item) => item.ID_USUARIO === form.idUsuario
+    );
+    console.log(filteredData);
+
+    // Verifique se o resultado do filtro é válido
+    if (filteredData.length > 0) {
+      // Preencha os campos do formulário com os dados filtrados
+      const filteredItem = filteredData[0]; // Considere apenas o primeiro item filtrado
+      onChangeForm({
+        target: { name: "nome", value: filteredItem.NOME },
+      });
+      onChangeForm({
+        target: { name: "email", value: filteredItem.EMAIL },
+      });
+      onChangeForm({
+        target: { name: "idPerfil", value: filteredItem.ID_PERFIL },
+      });
+      onChangeForm({
+        target: { name: "idAcesso", value: filteredItem.ID_ACESSO },
+      });
+      onChangeForm({
+        target: { name: "idEmpresa", value: filteredItem.ID_EMPRESA },
+      });
+      onChangeForm({
+        target: { name: "empresa", value: filteredItem.EMPRESA },
+      });
+      onChangeForm({
+        target: { name: "telefone", value: filteredItem.TELEFONE },
+      });
+      onChangeForm({
+        target: { name: "departamento", value: filteredItem.DEPARTAMENTO },
+      });
+    } else {
+      // Caso não haja resultado, você pode mostrar uma mensagem de erro ou limpar os campos do formulário
+      alert("ID de usuário não encontrado.");
+      resetForm(form);
+    }
+  };
+
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -76,7 +145,7 @@ const UpdatedUser = () => {
                   <p>Boris 🤗</p>
                 </div>
 
-                <div className="lg:col-span-2">
+                <div className="lg:col-span-2 mt-16">
                   <form
                     onSubmit={UpdatedUsers}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
@@ -93,7 +162,10 @@ const UpdatedUser = () => {
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <button className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200">
+                      <button
+                        onClick={handleSearch}
+                        className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200"
+                      >
                         <FcSearch size={25} />
                       </button>
                     </div>

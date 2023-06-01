@@ -103,7 +103,7 @@ const FormCreateAcesso = () => {
                       <div className="inline-flex ">
                         <button
                           type="submit"
-                          className="bg-indigo-500 hover:bg-indigo-100  text-colorBoldIndigo font-bold py-2 px-8 rounded"
+                          className="bg-indigo-500 hover:bg-indigo-400  ease-out text-white font-bold py-2 px-8 rounded"
                         >
                           CRIAR
                         </button>
