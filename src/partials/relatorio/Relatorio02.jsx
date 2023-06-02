@@ -18,12 +18,12 @@ function Relatorio02() {
   const [chartData, setChartData] = useState(null);
   const [modalIsOpen, setModalIsOpen] = useState(false);
   useEffect(() => {
-    async function fechData() {
+    async function fetchData() {
       try {
         const dados = {
           relatorio: "Acesso por Caminho",
           parametros: {
-            ID_PERIODO: 6,
+            ID_PERIODO: 7,
           },
         };
 
@@ -31,24 +31,31 @@ function Relatorio02() {
         const apiData = response.data;
 
         console.log(apiData);
+
+        const filteredDataHoraHora = apiData.find(
+          (item) => item.RESULTADO === "Hora Hora"
+        );
+        const filteredDataPagseguro = apiData.find(
+          (item) => item.RESULTADO === "Pagseguro Televendas"
+        );
+
         const formattedData = {
-          labels: filteredData.map((item) => item.NOME),
+          labels: ["Hora Hora", "Pagseguro Televendas"],
           datasets: [
-            // Light blue bars
             {
-              label: "TEAMS",
-              data: filteredData.map((item) => item.QTD_ACESSO_TEAMS),
-              backgroundColor: tailwindConfig().theme.colors.blue[200],
-              hoverBackgroundColor: tailwindConfig().theme.colors.blue[200],
-              barPercentage: 0.85,
-              categoryPercentage: 0.85,
-            },
-            // Blue bars
-            {
-              label: "TELEGRAM",
-              data: filteredData.map((item) => item.QTD_ACESSO_TELEGRAM),
-              backgroundColor: tailwindConfig().theme.colors.indigo[500],
-              hoverBackgroundColor: tailwindConfig().theme.colors.indigo[600],
+              label: "Acesso por Caminho",
+              data: [
+                filteredDataHoraHora ? filteredDataHoraHora.QTD_ACESSO : 0,
+                filteredDataPagseguro ? filteredDataPagseguro.QTD_ACESSO : 0,
+              ],
+              backgroundColor: [
+                tailwindConfig().theme.colors.red[200],
+                tailwindConfig().theme.colors.blue[200],
+              ],
+              hoverBackgroundColor: [
+                tailwindConfig().theme.colors.red[200],
+                tailwindConfig().theme.colors.blue[200],
+              ],
               barPercentage: 0.85,
               categoryPercentage: 0.85,
             },
@@ -59,7 +66,8 @@ function Relatorio02() {
         console.log(`Não conseguimos processar sua requisição ${error}`);
       }
     }
-    fechData();
+
+    fetchData();
   }, []);
   /*******************************MODAL FUNCTIONS****************************** */
   function openModal() {

@@ -8,15 +8,12 @@ import Header from "../partials/Header";
 /* AXIOS POST */
 import ADM_Gerenciamento from "../utils/axiosbaseurl/ADMGERENCIAMENTO";
 
-/* RENDERIZy LIST AND USERS  THIAGO LIMA */
+/* RENDERIZY LIST AND USERS  THIAGO LIMA */
 const ListarUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userList, setUserlist] = useState([]);
-  const [searchItem, setSearchItem] = useState("");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(15);
-  const [searchClicked, setSearchClicked] = useState(false);
-  const [filteredUserList, setFilteredUserList] = useState([]);
+  const [name, setName] = useState("");
+  const [currentPages, setCurrentPages] = useState(1);
 
   /**BODY DA API */
 
@@ -30,88 +27,39 @@ const ListarUser = () => {
 
   useEffect(() => {
     handleList();
-  }, [currentPage, itemsPerPage]);
+
+    handleFilterName();
+  }, []);
 
   /**FUNCTION POST API THIAGO LIMA */
   const handleList = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
       const dados = response.data;
-      const filteredList = dados.filter(searchUser);
-      setUserlist(filteredList);
-      const startIndex = (currentPage - 1) * itemsPerPage;
-      const endIndex = startIndex + itemsPerPage;
-      const pagedUserList = filteredList.slice(startIndex, endIndex);
-      setFilteredUserList(pagedUserList);
+      setUserlist(dados);
+      console.log(dados);
     } catch (err) {
       console.log(err);
     }
   };
+  /* FILTRO DE BUSCA POR NAME */
 
-  /********************************************* */
-
-  /**NEXT PAGE FUNCTION THIAGO LIMA */
-
-  const nextPage = () => {
-    if (currentPage < itemsPerPage) {
-      setCurrentPage((prevPage) => prevPage + 1);
-
-      /** LOCALIZA NA URL PAGINA QUE USUÁRIO ESTA NO MOMENTO THIAGO LIMA */
-
-      const url = new URL(window.location.href);
-      url.searchParams.set("page", currentPage + 1);
-      window.history.pushState({}, "", url);
-    } else {
-      setCurrentPage(1);
-
-      /** LOCALIZA NA URL PAGINA QUE USUÁRIO ESTA NO MOMENTO THIAGO LIMA */
-
-      const url = new URL(window.location.href);
-      url.searchParams.delete("page");
-      window.history.pushState({}, "", url);
-
-      console.log("Estou caindo aqui");
+  const handleFilterName = (user, isSearchClicked) => {
+    if (!isSearchClicked) {
+      return true;
     }
-  };
-  /********************************************* */
-
-  /**PREV PAGE FUNCTION THIAGO LIMA */
-  const previousPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage((prevPage) => prevPage - 1);
-
-      /** LOCALIZA NA URL PAGINA QUE USUÁRIO ESTA NO MOMENTO */
-
-      const url = new URL(window.location.href);
-      url.searchParams.set("page", currentPage - 1);
-      window.history.pushState({}, "", url);
-    }
-  };
-  /********************************************* */
-
-  /* FUNCTION SEARCH USERS THIAGO LIMA */
-  const searchUser = (user) => {
-    if (searchClicked) {
-      const nome = user.NOME || "";
-      const idUsuario = user.ID_USUARIO || "";
-      const idCallink = user.ID_CALLINK || "";
-      const email = user.EMAIL || "";
-      return (
-        String(nome).toLowerCase().includes(searchItem.toLowerCase()) ||
-        String(idUsuario).toLowerCase().includes(searchItem.toLowerCase()) ||
-        String(idCallink).toLowerCase().includes(searchItem.toLowerCase()) ||
-        String(email).toLowerCase().includes(searchItem.toLowerCase())
-      );
-    }
-    return true; // Retorna true por padrão se o botão de busca não foi clicado
+    return user.NOME.toLowerCase().includes(name.toLowerCase());
   };
 
-  useEffect(() => {
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const pagedUserList = userList.slice(startIndex, endIndex);
-    setFilteredUserList(pagedUserList);
-  }, [currentPage, itemsPerPage, userList]);
+  /* PAGINAÇÃO */
+
+  const handlePageChange = (pageNumber) => {
+    setCurrentPages(pageNumber);
+  };
+
+  const pages = 20;
+  const firstItemIndex = (currentPages - 1) * pages;
+  /*************************************** */
 
   return (
     <>
@@ -136,18 +84,19 @@ const ListarUser = () => {
                     type="text"
                     className="px-4 py-2"
                     placeholder="Pesquisar usuário"
-                    value={searchItem}
-                    onChange={(e) => setSearchItem(e.target.value)}
+                    value={name}
+                    onChange={(e) => {
+                      setName(e.target.value);
+                      console.log(name); // Verifique se o valor é atualizado corretamente
+                    }}
                   />
-                  <button
-                    onClick={() => setSearchClicked(true)}
-                    className="flex items-center justify-center px-4 border-l hover:bg-indigo-200 "
-                  >
+                  <button className="flex items-center justify-center px-4 border-l hover:bg-indigo-200 ">
                     <svg
                       className="h-4 w-4 text-grey-dark"
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
+                      onClick={() => handleFilterName(true)}
                     >
                       <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
                     </svg>
@@ -156,8 +105,7 @@ const ListarUser = () => {
               </div>
 
               <p className="text-center text-gray-500 mt-2">
-                Faça sua consulta baseada em 'NOME' , 'ID_USUARIO' ,
-                'ID_CALLINK', 'EMAIL' 🔍
+                Faça sua consulta baseada em 'NOME' 🔍
               </p>
             </div>
             <div className="p-3">
@@ -226,88 +174,92 @@ const ListarUser = () => {
                   </thead>
                   {/* Table body */}
                   <tbody className="text-sm divide-y divide-slate-400">
-                    {filteredUserList.filter(searchUser).map((user, index) => (
-                      <tr key={index}>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className="flex items-center">
-                            <div className="font-medium text-colorBoldIndigo">
-                              {user.ID_USUARIO}
+                    {userList
+                      .filter(handleFilterName)
+                      .slice(firstItemIndex, firstItemIndex + pages)
+                      .map((user, index) => (
+                        <tr key={index}>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className="flex items-center">
+                              <div className="font-medium text-colorBoldIndigo">
+                                {user.ID_USUARIO}
+                              </div>
                             </div>
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className="text-left">{user.ID_CALLINK}</div>
-                        </td>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className="text-left">{user.ID_CALLINK}</div>
+                          </td>
 
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.NOME}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.ID_PERFIL}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.ID_ACESSO}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.TELEFONE}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.DEPARTAMENTO}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.EMAIL}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.DAT_NASCIMENTO}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.DAT_NASCIMENTO}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.FLG_VALIDA_ESCALA}
-                          </div>
-                        </td>
-                        <td className="p-2 whitespace-nowrap">
-                          <div className=" text-colorBoldIndigo text-center">
-                            {user.FLG_ATIVO}
-                          </div>
-                        </td>
-                      </tr>
-                    ))}
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.NOME}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.ID_PERFIL}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.ID_ACESSO}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.TELEFONE}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.DEPARTAMENTO}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.EMAIL}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.DAT_NASCIMENTO}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.DAT_NASCIMENTO}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.FLG_VALIDA_ESCALA}
+                            </div>
+                          </td>
+                          <td className="p-2 whitespace-nowrap">
+                            <div className=" text-colorBoldIndigo text-center">
+                              {user.FLG_ATIVO}
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
                   </tbody>
                 </table>
               </div>
             </div>
-            <div className="flex justify-center mt-4">
+            <div className="flex justify-between mx-4 mb-4 ">
               <button
-                onClick={previousPage}
-                disabled={currentPage === 1}
-                className=" p-2  bg-indigo-500  text-white mr-2 hover:bg-indigo-100 ease-in-out"
+                className="bg-indigo-500 hover:bg-indigo-400  ease-out text-white font-bold py-2 px-8 rounded "
+                onClick={() => handlePageChange(currentPages - 1)}
+                disabled={currentPages === 1}
               >
-                Anterior
+                Voltar
               </button>
               <button
-                onClick={nextPage}
-                className="p-2 bg-indigo-500 text-white  hover:bg-indigo-100 ease-in-out"
+                className="bg-indigo-500  hover:bg-indigo-400  ease-out text-white font-bold py-2 px-8 rounded"
+                onClick={() => handlePageChange(currentPages + 1)}
+                disabled={currentPages === 65}
               >
-                Próxima
+                Avançar
               </button>
             </div>
           </div>

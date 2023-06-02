@@ -2,37 +2,38 @@ import React, { useState } from "react";
 import boris from "../../images/borisImage/BorisLogoGradient.png";
 import { useForm } from "../../hooks/useFormHook";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
-const FormCreateAcesso = () => {
-  /* FORM DE CRIAÇÃO DE USUÁRIO */
+const ModalNiver = () => {
   const { form, onChangeForm, resetForm } = useForm({
-    nomeAcesso: "",
-    idAcesso: "",
-    nivel: "",
+    idUsuario: "",
+    idPlataforma: "",
+    loginUsuario: "",
+    idChat: "",
   });
 
   const useEffect =
     (() => {
-      createFormListaAcesso();
+      createFormUserBoris();
     },
     []);
 
   const dados = {
-    escolha: "acesso",
+    escolha: "login",
     processo: "criar",
     atributos: {
-      NIVEL: form.nivel,
-      ID_ACESSO: form.idAcesso,
-      NOME_ACESSO: form.nomeAcesso,
+      ID_USUARIO: form.idUsuario,
+      ID_PLATAFORMA: form.idPlataforma,
+      LOGIN_USUARIO: form.loginUsuario,
+      ID_CHAT: form.idChat,
     },
   };
 
-  const createFormListaAcesso = (event) => {
+  const createFormUserLogin = (event) => {
     event.preventDefault();
     ADM_Gerenciamento.post("/", dados)
 
       .then((response) => {
-        console.log(response);
         const dados = response.data;
+        console.log(dados);
         resetForm(form);
       })
       .catch((err) => console.log(err));
@@ -48,55 +49,57 @@ const FormCreateAcesso = () => {
                   <div>
                     <img src={boris} alt="Logo Boris Gradient" />
                   </div>
-                  <p className="mt-6 text-colorBoldIndigo text-xl">
-                    ❝ Atenção ao criar acesso do usuario revise todos os campos
-                    antes de enviar.❞
-                  </p>
-                  <p>Boris 🤗</p>
                 </div>
 
                 <div className="lg:col-span-2">
                   <form
-                    onSubmit={createFormListaAcesso}
+                    onSubmit={createFormUserLogin}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                   >
-                    <div className="md:col-span-3">
-                      <label htmlFor="nome">Digite o nome do acesso</label>
+                    <div className="md:col-span-2">
+                      <label htmlFor="loginUsuario">Login usuário</label>
                       <input
                         type="text"
-                        name="nomeAcesso"
+                        name="loginUsuario"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value={form.nomeAcesso}
+                        value={form.loginUsuario}
                         required
                         onChange={onChangeForm}
-                        placeholder="Digite o nome do acesso"
+                        placeholder="Digite o login do usuário"
                       />
                     </div>
 
                     <div className="md:col-span-1">
-                      <label htmlFor="id"> ID_ACESSO</label>
+                      <label htmlFor="idPlataforma">ID Plataforma</label>
                       <input
-                        name="idAcesso"
+                        name="idPlataforma"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value={form.idAcesso}
+                        value={form.idPlataforma}
                         onChange={onChangeForm}
+                        type="number"
                       />
                     </div>
 
                     <div className="md:col-span-1">
-                      <label htmlFor="id_acesso">NIVEL</label>
-                      <select
-                        name="nivel"
+                      <label htmlFor="idUsuario">ID Usuário</label>
+                      <input
+                        name="idUsuario"
                         className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value={form.nivel}
+                        value={form.idUsuario}
                         onChange={onChangeForm}
-                      >
-                        <option value="-">--</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                        <option value="4">4</option>
-                      </select>
+                        type="number"
+                      />
+                    </div>
+                    <div className="md:col-span-1">
+                      <label htmlFor="idChat">ID Chat</label>
+                      <input
+                        type="number"
+                        name="idChat"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        value={form.idChat}
+                        onChange={onChangeForm}
+                        required
+                      />
                     </div>
                     <div className="md:col-span-5 text-center mt-3">
                       <div className="inline-flex ">
@@ -119,4 +122,4 @@ const FormCreateAcesso = () => {
   );
 };
 
-export default FormCreateAcesso;
+export default ModalNiver;

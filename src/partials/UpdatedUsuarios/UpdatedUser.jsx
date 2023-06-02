@@ -8,6 +8,8 @@ import InputMask from "react-input-mask";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 // REACT ICONS
 import { FcSearch } from "react-icons/fc";
+// LIBS
+import Modal from "react-modal";
 
 /******************************************************************* */
 
@@ -54,18 +56,15 @@ const UpdatedUser = () => {
 
       .then((response) => {
         const dados = response.data;
-
-        setInterval(() => {
-          resetForm(form);
-        }, 4000);
+        closeModal();
       })
       .catch((err) => console.log(err));
   };
 
   /****************************************************************** */
-
+  // SEARCH USER CLICK
   const requestApi = {
-    escolha: "login",
+    escolha: "usuario",
     processo: "leitura",
   };
   useEffect(() => {
@@ -82,11 +81,12 @@ const UpdatedUser = () => {
     // Chama a função de busca dos dados
     fetchDados();
   }, []);
-
+  /******BUSCA OS DADOS DO USUARIO BASEADO NO ID *****/
   const handleSearch = () => {
+    const idUsuario = parseInt(form.idUsuario);
     // Realize o filtro dos dados com base no ID digitado
     const filteredData = dadoFilter.filter(
-      (item) => item.ID_USUARIO === form.idUsuario
+      (item) => item.ID_USUARIO === idUsuario
     );
     console.log(filteredData);
 
@@ -125,6 +125,22 @@ const UpdatedUser = () => {
     }
   };
 
+  /**************** MODAL FUNCTIONS *******************/
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+  function openModal(e) {
+    e.preventDefault();
+    setModalIsOpen(true);
+    console.log("test");
+  }
+  function closeModal() {
+    setModalIsOpen(false);
+  }
+  const customStyles = {
+    content: {
+      height: "35%",
+    },
+  };
+
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -147,7 +163,7 @@ const UpdatedUser = () => {
 
                 <div className="lg:col-span-2 mt-16">
                   <form
-                    onSubmit={UpdatedUsers}
+                    onSubmit={openModal}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                   >
                     <div className="md:col-span-2">
@@ -301,14 +317,154 @@ const UpdatedUser = () => {
                       <div className="inline-flex ">
                         <button
                           type="submit"
-                          className="bg-indigo-500 hover:bg-indigo-100  text-colorBoldIndigo font-bold py-2 px-8 rounded"
+                          className="bg-indigo-500 hover:bg-indigo-400  ease-out text-white font-bold py-2 px-8 rounded"
                         >
-                          CRIAR
+                          ATUALIZAR
                         </button>
                       </div>
                     </div>
                   </form>
                 </div>
+                <Modal isOpen={modalIsOpen} style={customStyles}>
+                  <div className="p-3 ">
+                    {/* Table */}
+                    <div className="overflow-x-auto">
+                      <table className="table-auto w-full ">
+                        {/* Table header */}
+                        <thead className="text-xs font-semibold uppercase text-slate-400 bg-slate-50">
+                          <tr>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-left">
+                                ID_USUARIO
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-left">
+                                ID_EMPRESA
+                              </div>
+                            </th>
+
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                NOME
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                ID_PERFIL
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                ID_ACESSO
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                TELEFONE
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                EMPRESA
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                DEPARTAMENTO
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                E-MAIL
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                VALIDAÇÃO ESCALA
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        {/* Table body */}
+                        <tbody className="text-sm divide-y divide-slate-400">
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="font-medium text-colorBoldIndigo">
+                                  {form.idUsuario}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-left">{form.idEmpresa}</div>
+                            </td>
+
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.nome}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.idPerfil}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.idAcesso}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.telefone}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.empresa}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.departamento}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.email}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.valida}
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <div className="border-t mt-4 flex justify-end">
+                        <h2 className="text-gray-600 italic text-lg mt-2 mx-3">
+                          Deseja atualizar usuário com as informações acima !?
+                        </h2>
+                        <button
+                          onClick={UpdatedUsers}
+                          className="p-2 bg-green-300 rounded w-24 hover:bg-indigo-100 ease-in-out cursor-pointer font-bold mt-3 mr-3"
+                        >
+                          SIM
+                        </button>
+                        <button
+                          className=" bg-red-300 p-2 rounded w-24 hover:bg-gray-200 ease-in-out cursor-pointer font-bold mt-3 "
+                          onClick={closeModal}
+                        >
+                          NÃO
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>

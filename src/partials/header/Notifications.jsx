@@ -1,10 +1,15 @@
+//HOOKS
 import React, { useState, useRef, useEffect } from "react";
+// LIBS
 import { Link } from "react-router-dom";
+import Modal from "react-modal";
+// COMPONENTES
 import Transition from "../../utils/Transition";
+import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 
 function Notifications() {
+  //* NOTIFICAÇÕES */
   const [dropdownOpen, setDropdownOpen] = useState(false);
-
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -33,8 +38,39 @@ function Notifications() {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
+  /******************************* */
+  const [niver, setNiver] = useState([]);
+  const requestApi = {
+    escolha: "info",
+    processo: "aniversario",
+  };
+  /**HOOK REQUEST AUTOPLAY  API */
+  useEffect(() => {
+    pushNiver();
+  }, []);
+  /******************************* */
+
+  /**FUNCTION POST API THIAGO LIMA */
+  const pushNiver = async () => {
+    try {
+      const response = await ADM_Gerenciamento.post("/", requestApi);
+      const dados = response.data;
+      setNiver(dados);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  /************************************* */
+
+  let data = new Date();
+  let dia = String(data.getDate()).padStart(2, 0);
+  let mes = String(data.getMonth() + 1).padStart(2, 0);
+  let ano = data.getFullYear();
+  const dataAtual = dia + "/" + mes + "/" + ano;
+
   return (
-    <div className="relative inline-flex ml-3">
+    <div className="relative inline-flex mr-6 ">
       <button
         ref={trigger}
         className={`w-8 h-8 flex items-center justify-center bg-slate-100 hover:bg-slate-200 transition duration-150 rounded-full ${
@@ -76,28 +112,56 @@ function Notifications() {
           ref={dropdown}
           onFocus={() => setDropdownOpen(true)}
           onBlur={() => setDropdownOpen(false)}
+          className=" max-h-72 overflow-y-auto p-4"
         >
           <div className="text-xs font-semibold text-slate-400 uppercase pt-1.5 pb-2 px-4">
             Avisos
           </div>
-          <ul>
+          <ul className="overflow-auto">
             <li className="border-b border-slate-200 last:border-0">
               <Link
                 className="block py-2 px-4 hover:bg-slate-50"
                 to="#0"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                <span className="block text-sm mb-2">
+                <span className=" block text-sm mb-2">
                   📣{" "}
-                  <span className="font-medium text-slate-800">
-                    Times Boris ainda esta trabalhando
+                  <span className="font-medium text-slate-800 text-center text-xl ">
+                    Notificações de hoje
                   </span>{" "}
                   <br />
-                  Muita calma que ja iremos atualizar essa parte com as
-                  notificações mas recentes
+                  {niver ? (
+                    <div>
+                      <h3 className="font-bold p-2 bg-slate-200 text-center mt-2">
+                        Aniversariantes do Dia 🥳
+                      </h3>
+                      {niver.map((item, index) => (
+                        <div
+                          key={index}
+                          className="border-b-3 mt-2 text-gray-600 bg-slate-50   "
+                        >
+                          <h3 className="font-bold">
+                            <span>{item.NOME}</span>
+                          </h3>
+                          <h4 className="font-bold">
+                            ESTÁ FAZENDO HOJE: {item.IDADE} ANOS
+                          </h4>
+                          <h5 className="text-sm ">
+                            DEPARTAMENTO: {item.DEPARTAMENTO}
+                          </h5>
+                          <button className="p-1 border-2 bg-indigo-200 hover:bg-slate-400  ease-in-out rounded my-2">
+                            Desejar Parabéns
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p></p>
+                  )}
                 </span>
-                <span className="block text-xs font-medium text-slate-400">
-                  May 25, 2023
+
+                <span className="block  text-xs font-medium text-slate-400">
+                  {dataAtual}
                 </span>
               </Link>
             </li>

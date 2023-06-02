@@ -1,12 +1,17 @@
+//HHOKS
 import React, { useState } from "react";
+// AXIOS
 import axios from "axios";
+// IMAGENS
 import borisAlertV1 from "../images/borisImage/borisAlertV1.png";
+// TITLE
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+// COMPONENT
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 
 const AlertaBoris = () => {
+  // END POINT DE ALERTA
   const [username, setUsername] = useState("");
   const [text, setText] = useState("");
   const [message, setMessage] = useState("");
@@ -52,12 +57,6 @@ const AlertaBoris = () => {
         <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
           <main className="bg-slate-100">
-            <Link
-              to={"/home"}
-              className="text-white bg-primary hover:bg-blue-700 px-3 py-1 mt-6 ml-4"
-            >
-              Voltar
-            </Link>
             <div className=" flex items-center justify-center ">
               <div className="w-10/12 lg:w-9/12 xl:w-10/12 flex  justify-center">
                 <div className=" relative w-full lg:w-1/2 bg-slate-200 rounded-lg lg:rounded-l-none py-24 px-12 shadow-md">
