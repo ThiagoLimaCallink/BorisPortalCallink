@@ -10,12 +10,6 @@ const FormCreateAcesso = () => {
     nivel: "",
   });
 
-  const useEffect =
-    (() => {
-      createFormListaAcesso();
-    },
-    []);
-
   const dados = {
     escolha: "acesso",
     processo: "criar",
@@ -31,7 +25,6 @@ const FormCreateAcesso = () => {
     ADM_Gerenciamento.post("/", dados)
 
       .then((response) => {
-        console.log(response);
         const dados = response.data;
         resetForm(form);
       })

@@ -10,12 +10,6 @@ const FormCreatePerfil = () => {
     nomePerfil: "",
   });
 
-  const useEffect =
-    (() => {
-      createFormUserBoris();
-    },
-    []);
-
   const dados = {
     escolha: "perfil",
     processo: "criar",

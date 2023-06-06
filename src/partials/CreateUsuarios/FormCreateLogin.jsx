@@ -11,12 +11,6 @@ const FormCreateLogin = () => {
     idChat: "",
   });
 
-  const useEffect =
-    (() => {
-      createFormUserBoris();
-    },
-    []);
-
   const dados = {
     escolha: "login",
     processo: "criar",

@@ -2,7 +2,7 @@
 import React, { useState, useRef, useEffect } from "react";
 // LIBS
 import { Link } from "react-router-dom";
-import Modal from "react-modal";
+
 // COMPONENTES
 import Transition from "../../utils/Transition";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
@@ -10,6 +10,7 @@ import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 function Notifications() {
   //* NOTIFICAÇÕES */
   const [dropdownOpen, setDropdownOpen] = useState(false);
+
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
@@ -56,12 +57,15 @@ function Notifications() {
       const response = await ADM_Gerenciamento.post("/", requestApi);
       const dados = response.data;
       setNiver(dados);
+      console.log(dados);
     } catch (err) {
       console.log(err);
     }
   };
 
   /************************************* */
+
+  /*******************************MODAL FUNCTIONS****************************** */
 
   let data = new Date();
   let dia = String(data.getDate()).padStart(2, 0);
@@ -143,15 +147,21 @@ function Notifications() {
                           <h3 className="font-bold">
                             <span>{item.NOME}</span>
                           </h3>
-                          <h4 className="font-bold">
+                          <h4 className="font-bold mb-3">
                             ESTÁ FAZENDO HOJE: {item.IDADE} ANOS
                           </h4>
-                          <h5 className="text-sm ">
-                            DEPARTAMENTO: {item.DEPARTAMENTO}
+                          <h5 className="text-sm mb-3">
+                            <strong>DEPARTAMENTO:</strong> {item.DEPARTAMENTO}
                           </h5>
-                          <button className="p-1 border-2 bg-indigo-200 hover:bg-slate-400  ease-in-out rounded my-2">
+                          <h5 className="text-sm mb-4 ">
+                            <strong>LOGIN_USUARIO:</strong> {item.LOGIN_USUARIO}
+                          </h5>
+                          <Link
+                            to={"/alerta"}
+                            className="p-1 border-2 bg-indigo-200 hover:bg-slate-400  ease-in-out rounded my-4"
+                          >
                             Desejar Parabéns
-                          </button>
+                          </Link>
                         </div>
                       ))}
                     </div>

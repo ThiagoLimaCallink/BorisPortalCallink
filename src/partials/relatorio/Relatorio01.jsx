@@ -29,17 +29,21 @@ function Relatorio01() {
 
         const response = await ADM_RELATORIO_CALLINK.post("/", dados);
         const apiData = response.data;
-        const filteredData = apiData.filter(
-          (item) => item.QTD_ACESSO_TEAMS > 10
+        const apiDataTeams = apiData.filter(
+          (item) => item.QTD_ACESSO_TEAMS > 5
+        );
+
+        const apiDataTelegram = apiData.filter(
+          (item) => item.QTD_ACESSO_TELEGRAM > 5
         );
 
         const formattedData = {
-          labels: filteredData.map((item) => item.NOME),
+          labels: apiDataTeams.map((item) => item.NOME),
           datasets: [
             // Light blue bars
             {
               label: "TEAMS",
-              data: filteredData.map((item) => item.QTD_ACESSO_TEAMS),
+              data: apiDataTeams.map((item) => item.QTD_ACESSO_TEAMS),
               backgroundColor: tailwindConfig().theme.colors.blue[200],
               hoverBackgroundColor: tailwindConfig().theme.colors.blue[200],
               barPercentage: 0.85,
@@ -48,7 +52,7 @@ function Relatorio01() {
             // Blue bars
             {
               label: "TELEGRAM",
-              data: filteredData.map((item) => item.QTD_ACESSO_TELEGRAM),
+              data: apiDataTelegram.map((item) => item.QTD_ACESSO_TELEGRAM),
               backgroundColor: tailwindConfig().theme.colors.indigo[500],
               hoverBackgroundColor: tailwindConfig().theme.colors.indigo[600],
               barPercentage: 0.85,
@@ -94,7 +98,7 @@ function Relatorio01() {
         <Modal01 />
       </Modal>
       {chartData ? (
-        <BarChart data={chartData} width={595} height={248} />
+        <BarChart data={chartData} width="100%" height={248} />
       ) : (
         <div className="flex justify-center items-center h-full mt-5">
           <BarLoader color="#41A33E" loading={true} width={150} height={8} />

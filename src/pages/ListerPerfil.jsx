@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+// REACT
+import React, { useState } from "react";
+//TITLE
 import { Helmet } from "react-helmet";
+//COMPONENTS
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import ADM_Gerenciamento from "../utils/axiosbaseurl/ADMGERENCIAMENTO";
-
+//HOOKS
+import useSWR from "swr";
+// LIBS
+import { BarLoader } from "react-spinners";
 const ListarPerfil = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [userList, setUserlist] = useState([]);
 
   const requestApi = {
     escolha: "perfil",
@@ -14,19 +19,34 @@ const ListarPerfil = () => {
   };
   ("");
 
-  useEffect(() => {
-    handleList();
-  }, []);
-
-  const handleList = async () => {
+  const fetcher = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
-      const dados = response.data;
-      setUserlist(dados);
-    } catch (err) {
-      console.log(err);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
+
+  /* REQUEST API */
+  const { data, error } = useSWR(
+    "https://southamerica-east1-biclk-203418.cloudfunctions.net/ADM_Gerenciamento",
+    fetcher
+  );
+
+  const userList = data;
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-full mt-5">
+        <BarLoader color="#41A33E" loading={true} width={150} height={8} />
+      </div>
+    );
+  }
 
   return (
     <>

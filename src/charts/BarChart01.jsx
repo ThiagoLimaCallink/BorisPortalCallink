@@ -8,6 +8,7 @@ import {
   TimeScale,
   Tooltip,
   Legend,
+  scales,
 } from "chart.js";
 import "chartjs-adapter-moment";
 
@@ -20,7 +21,8 @@ Chart.register(
   LinearScale,
   TimeScale,
   Tooltip,
-  Legend
+  Legend,
+  scales
 );
 
 function BarChart01({ data, width, height }) {
@@ -49,9 +51,6 @@ function BarChart01({ data, width, height }) {
             },
           },
           x: {
-            border: {
-              display: false,
-            },
             grid: {
               display: false,
             },
@@ -66,7 +65,7 @@ function BarChart01({ data, width, height }) {
           },
         },
         maintainAspectRatio: false,
-        resizeDelay: 300,
+        responsive: true,
       },
       plugins: [
         {
@@ -147,10 +146,10 @@ function BarChart01({ data, width, height }) {
 
   return (
     <React.Fragment>
-      <div className="px-5 py-3">
+      <div className="px-5 py-3 w-full">
         <ul ref={legend} className="flex flex-wrap"></ul>
       </div>
-      <div className="grow">
+      <div className="w-full">
         <canvas ref={canvas} width={width} height={height}></canvas>
       </div>
     </React.Fragment>

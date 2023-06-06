@@ -1,12 +1,17 @@
-import React, { useState, useEffect } from "react";
+// HOOKS
+import React, { useState } from "react";
+import useSWR from "swr";
+// TITLE
 import { Helmet } from "react-helmet";
+// COMPONENTS
 import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import ADM_Gerenciamento from "../utils/axiosbaseurl/ADMGERENCIAMENTO";
+//LIBS
+import { BarLoader } from "react-spinners";
 
 const ListaLogin = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [userList, setUserlist] = useState([]);
   const [name, setName] = useState("");
   const [currentPages, setCurrentPages] = useState(1);
 
@@ -17,22 +22,34 @@ const ListaLogin = () => {
   };
   ("");
 
-  /**HOOK REQUEST AUTOPLAY  API */
-
-  useEffect(() => {
-    handleList();
-  }, []);
-
-  /**FUNCTION POST API THIAGO LIMA */
-  const handleList = async () => {
+  const fetcher = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
-      const dados = response.data;
-      setUserlist(dados);
-    } catch (err) {
-      console.log(err);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
+
+  /* REQUEST API */
+  const { data, error } = useSWR(
+    "https://southamerica-east1-biclk-203418.cloudfunctions.net/ADM_Gerenciamento",
+    fetcher
+  );
+
+  const userList = data;
+
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-full mt-5">
+        <BarLoader color="#41A33E" loading={true} width={150} height={8} />
+      </div>
+    );
+  }
 
   const handleFilterName = (user, isSearchClicked) => {
     if (!isSearchClicked) {
@@ -52,7 +69,7 @@ const ListaLogin = () => {
   const pages = 20;
   const firstItemIndex = (currentPages - 1) * pages;
   /*************************************** */
-  console.log(userList);
+
   return (
     <>
       <Helmet>
@@ -74,9 +91,11 @@ const ListaLogin = () => {
                 <input
                   type="text"
                   className="px-4 py-2"
-                  placeholder="Pesquisar..."
+                  placeholder="Pesquisar usuário"
                   value={name}
-                  onChange={(e) => setName(e.target.value)}
+                  onChange={(e) => {
+                    setName(e.target.value);
+                  }}
                 />
                 <button className="flex items-center justify-center px-4 border-l hover:bg-indigo-200 ">
                   <svg

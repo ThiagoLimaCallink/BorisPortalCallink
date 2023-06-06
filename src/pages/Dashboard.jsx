@@ -7,8 +7,6 @@ import Datepicker from "../partials/actions/Datepicker";
 import DashboardCard01 from "../partials/dashboard/DashboardCard01";
 import DashboardCard02 from "../partials/dashboard/DashboardCard02";
 import DashboardCard03 from "../partials/dashboard/DashboardCard03";
-import DashboardCard04 from "../partials/dashboard/DashboardCard04";
-import DashboardCard05 from "../partials/dashboard/DashboardCard05";
 import DashboardCard06 from "../partials/dashboard/DashboardCard06";
 import DashboardCard07 from "../partials/dashboard/DashboardCard07";
 
@@ -47,14 +45,10 @@ function Dashboard() {
               <DashboardCard02 />
               {/* WORKING 2 */}
               <DashboardCard03 />
-              {/*USERS ATIVOS */}
-              <DashboardCard04 />
-              {/*Boris Portal Utilização Graf */}
-              <DashboardCard05 />
               {/*Atividade Recente */}
-              <DashboardCard06 />
+              {/* <DashboardCard06 />
               {/* WOKING PAY */}
-              <DashboardCard07 />
+              {/* <DashboardCard07 /> */}
             </div>
           </div>
         </main>

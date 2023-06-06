@@ -1,5 +1,6 @@
 /** HOOKS DO REACT  */
 import React, { useState, useEffect } from "react";
+import useSWR from "swr";
 /* TITLE REACT PAGE */
 import { Helmet } from "react-helmet";
 /* COMPONENTS */
@@ -7,11 +8,12 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 /* AXIOS POST */
 import ADM_Gerenciamento from "../utils/axiosbaseurl/ADMGERENCIAMENTO";
+// LIBS
+import { BarLoader } from "react-spinners";
 
 /* RENDERIZY LIST AND USERS  THIAGO LIMA */
 const ListarUser = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [userList, setUserlist] = useState([]);
   const [name, setName] = useState("");
   const [currentPages, setCurrentPages] = useState(1);
 
@@ -23,32 +25,42 @@ const ListarUser = () => {
   };
   ("");
 
-  /**HOOK REQUEST AUTOPLAY  API */
-
-  useEffect(() => {
-    handleList();
-
-    handleFilterName();
-  }, []);
-
-  /**FUNCTION POST API THIAGO LIMA */
-  const handleList = async () => {
+  const fetcher = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
-      const dados = response.data;
-      setUserlist(dados);
-      console.log(dados);
-    } catch (err) {
-      console.log(err);
+      return response.data;
+    } catch (error) {
+      throw new Error(error.message);
     }
   };
-  /* FILTRO DE BUSCA POR NAME */
+
+  /* TEST */
+  const { data, error } = useSWR(
+    "https://southamerica-east1-biclk-203418.cloudfunctions.net/ADM_Gerenciamento",
+    fetcher
+  );
+
+  const userList = data;
+
+  console.log(userList);
+  if (error) {
+    return <div>Error loading data</div>;
+  }
+
+  if (!data) {
+    return (
+      <div className="flex justify-center items-center h-full mt-5">
+        <BarLoader color="#41A33E" loading={true} width={150} height={8} />
+      </div>
+    );
+  }
 
   const handleFilterName = (user, isSearchClicked) => {
     if (!isSearchClicked) {
       return true;
     }
-    return user.NOME.toLowerCase().includes(name.toLowerCase());
+    const userNome = user?.NOME ?? "";
+    return userNome.toLowerCase().includes(name.toLowerCase());
   };
 
   /* PAGINAÇÃO */
@@ -87,7 +99,6 @@ const ListarUser = () => {
                     value={name}
                     onChange={(e) => {
                       setName(e.target.value);
-                      console.log(name); // Verifique se o valor é atualizado corretamente
                     }}
                   />
                   <button className="flex items-center justify-center px-4 border-l hover:bg-indigo-200 ">
@@ -96,7 +107,6 @@ const ListarUser = () => {
                       fill="currentColor"
                       xmlns="http://www.w3.org/2000/svg"
                       viewBox="0 0 24 24"
-                      onClick={() => handleFilterName(true)}
                     >
                       <path d="M16.32 14.9l5.39 5.4a1 1 0 0 1-1.42 1.4l-5.38-5.38a8 8 0 1 1 1.41-1.41zM10 16a6 6 0 1 0 0-12 6 6 0 0 0 0 12z" />
                     </svg>
@@ -157,7 +167,7 @@ const ListarUser = () => {
                       </th>
                       <th className="p-2 whitespace-nowrap">
                         <div className="font-semibold text-center">
-                          VALIDAÇÃO ESCALA
+                          ID_CALLINK
                         </div>
                       </th>
                       <th className="p-2 whitespace-nowrap">
@@ -227,9 +237,10 @@ const ListarUser = () => {
                           </td>
                           <td className="p-2 whitespace-nowrap">
                             <div className=" text-colorBoldIndigo text-center">
-                              {user.DAT_NASCIMENTO}
+                              {user.ID_CALLINK}
                             </div>
                           </td>
+
                           <td className="p-2 whitespace-nowrap">
                             <div className=" text-colorBoldIndigo text-center">
                               {user.FLG_VALIDA_ESCALA}
