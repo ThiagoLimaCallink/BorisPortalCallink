@@ -16,7 +16,7 @@ const Relatorio02 = () => {
   const requestApi = {
     relatorio: "Acesso por Caminho",
     parametros: {
-      ID_PERIODO: 9,
+      ID_PERIODO: 7,
     },
   };
   ("");
@@ -44,7 +44,7 @@ const Relatorio02 = () => {
 
   if (!data) {
     return (
-      <div className="flex justify-center items-center h-full mt-5  ">
+      <div className="flex justify-center items-center h-full mt-5   ">
         <BarLoader color="#41A33E" loading={true} width={150} height={8} />
       </div>
     );

@@ -3,7 +3,6 @@ import Sidebar from "../partials/Sidebar";
 import Header from "../partials/Header";
 import Relatorio01 from "../partials/relatorio/Relatorio01";
 import Relatorio02 from "../partials/relatorio/Relatorio02";
-import Relatorio03 from "../partials/relatorio/Relatorio03";
 
 function AllRelatorios() {
   const [sidebarOpen, setSidebarOpen] = useState(false);

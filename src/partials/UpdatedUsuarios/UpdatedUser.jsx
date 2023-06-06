@@ -107,7 +107,7 @@ const UpdatedUser = () => {
         target: { name: "idAcesso", value: filteredItem.ID_ACESSO },
       });
       onChangeForm({
-        target: { name: "idEmpresa", value: filteredItem.ID_EMPRESA },
+        target: { name: "idEmpresa", value: filteredItem.ID_CALLINK },
       });
       onChangeForm({
         target: { name: "empresa", value: filteredItem.EMPRESA },
@@ -171,7 +171,7 @@ const UpdatedUser = () => {
                       <input
                         type="number"
                         name="idUsuario"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idUsuario}
                         onChange={onChangeForm}
                         required
@@ -180,18 +180,18 @@ const UpdatedUser = () => {
                     <div className="md:col-span-1">
                       <button
                         onClick={handleSearch}
-                        className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200"
+                        className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200 text-center"
                       >
                         <FcSearch size={25} />
                       </button>
                     </div>
 
                     <div className="md:col-span-5">
-                      <label htmlFor="nome">Digite o nome do usuário</label>
+                      <label htmlFor="nome">DIGITE O NOME DO USUÁRIO</label>
                       <input
                         type="text"
                         name="nome"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.nome}
                         required
                         onChange={onChangeForm}
@@ -200,7 +200,7 @@ const UpdatedUser = () => {
                     </div>
 
                     <div className="md:col-span-3">
-                      <label htmlFor="email">Digite E-MAIL do usuário</label>
+                      <label htmlFor="email">DIGITE O E-MAIL DO USUÁRIO</label>
                       <input
                         type="email"
                         name="email"
@@ -217,7 +217,7 @@ const UpdatedUser = () => {
                       <label htmlFor="id"> ID_PERFIl</label>
                       <select
                         name="idPerfil"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idPerfil}
                         onChange={onChangeForm}
                       >
@@ -239,7 +239,7 @@ const UpdatedUser = () => {
                       <label htmlFor="id_acesso">ID_ACESSO</label>
                       <select
                         name="idAcesso"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idAcesso}
                         onChange={onChangeForm}
                       >
@@ -255,7 +255,7 @@ const UpdatedUser = () => {
                       <input
                         type="number"
                         name="idEmpresa"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idEmpresa}
                         onChange={onChangeForm}
                         required
@@ -267,7 +267,7 @@ const UpdatedUser = () => {
                         <InputMask
                           name="telefone"
                           mask="(99) 99999-9999"
-                          className="px-4 rounded outline-none text-gray-800 w-full bg-transparent"
+                          className="px-4 rounded outline-none text-gray-800 w-full bg-transparent text-center"
                           value={form.telefone}
                           onChange={onChangeForm}
                         />
@@ -276,10 +276,10 @@ const UpdatedUser = () => {
 
                     <div className="md:col-span-2">
                       <label htmlFor="empresa">EMPRESA</label>
-                      <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1">
+                      <div className="h-10 bg-gray-50 flex border border-gray-200 rounded items-center mt-1 ">
                         <input
                           name="empresa"
-                          className="px-4 rounded outline-none text-gray-800 w-full bg-transparent"
+                          className="px-4 rounded outline-none text-gray-800 w-full bg-transparent text-center"
                           value={form.empresa}
                           type="text"
                           onChange={onChangeForm}
@@ -293,7 +293,7 @@ const UpdatedUser = () => {
                       <input
                         type="text"
                         name="departamento"
-                        className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.departamento}
                         onChange={onChangeForm}
                         required

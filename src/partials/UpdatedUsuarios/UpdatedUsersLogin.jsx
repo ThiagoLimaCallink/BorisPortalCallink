@@ -50,6 +50,7 @@ const UpdatedUsersLogin = () => {
       try {
         const response = await ADM_Gerenciamento.post("/", requestApi); // Substitua '/api/dados' pelo endpoint correto da sua API
         setDadosFilter(response.data);
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -83,6 +84,7 @@ const UpdatedUsersLogin = () => {
   };
   /**************** MODAL FUNCTIONS *******************/
   const [modalIsOpen, setModalIsOpen] = useState(false);
+
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
@@ -117,14 +119,14 @@ const UpdatedUsersLogin = () => {
 
                 <div className="lg:col-span-2">
                   <form
-                    onSubmit={HandleUsersLogin}
+                    onSubmit={openModal}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                   >
                     <div className="md:col-span-1">
-                      <label htmlFor="idLogin">ID LOGIN</label>
+                      <label htmlFor="idLogin">ID_LOGIN</label>
                       <input
                         name="idLogin"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idLogin}
                         onChange={onChangeForm}
                         type="number"
@@ -140,11 +142,11 @@ const UpdatedUsersLogin = () => {
                     </div>
 
                     <div className="md:col-span-2">
-                      <label htmlFor="loginUsuario">Login usuário</label>
+                      <label htmlFor="loginUsuario">LOGIN_USUARIO</label>
                       <input
                         type="text"
                         name="loginUsuario"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.loginUsuario}
                         required
                         onChange={onChangeForm}
@@ -153,10 +155,10 @@ const UpdatedUsersLogin = () => {
                     </div>
 
                     <div className="md:col-span-1">
-                      <label htmlFor="idChat">ID CHAT</label>
+                      <label htmlFor="idChat">ID_CHAT</label>
                       <input
                         name="idChat"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idChat}
                         onChange={onChangeForm}
                         type="number"
@@ -212,11 +214,7 @@ const UpdatedUsersLogin = () => {
                               </div>
                             </td>
                             <td className="p-2 whitespace-nowrap">
-                              <div className="text-left">{form.idEmpresa}</div>
-                            </td>
-
-                            <td className="p-2 whitespace-nowrap">
-                              <div className=" text-colorBoldIndigo text-center">
+                              <div className=" text-colorBoldIndigo ">
                                 {form.loginUsuario}
                               </div>
                             </td>
@@ -235,7 +233,7 @@ const UpdatedUsersLogin = () => {
                           Deseja atualizar usuário com as informações acima !?
                         </h2>
                         <button
-                          onClick={UpdatedUsersLogin}
+                          onClick={HandleUsersLogin}
                           className="p-2 bg-green-300 rounded w-24 hover:bg-indigo-100 ease-in-out cursor-pointer font-bold mt-3 mr-3"
                         >
                           SIM

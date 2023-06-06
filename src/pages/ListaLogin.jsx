@@ -39,6 +39,8 @@ const ListaLogin = () => {
 
   const userList = data;
 
+  console.log(userList);
+
   if (error) {
     return <div>Error loading data</div>;
   }

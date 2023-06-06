@@ -28,6 +28,7 @@ import CloseLogin from "./pages/CloseLogin";
 import CloseAllLogin from "./pages/CloseAllLogin";
 import AllRelatorios from "./pages/AllRelatorios";
 import Modal01 from "./partials/relatorio/modal/Modal01";
+import CriarPerfil from "./pages/CriarPerfil";
 
 function App() {
   //Variable that recognizes the user
@@ -70,7 +71,7 @@ function App() {
         />
         <Route
           path="/criarperfil"
-          element={signed ? <CriarLogin /> : <Navigate to="/" />}
+          element={signed ? <CriarPerfil /> : <Navigate to="/" />}
         />
         <Route
           path="/updatedlogin"

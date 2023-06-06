@@ -2,21 +2,19 @@
 import React, { useEffect, useState } from "react";
 // COMPONENTS
 import BarChart from "../../charts/BarChart01";
-import Modal01 from "./modal/Modal01";
+
 import ADM_RELATORIO_CALLINK from "../../utils/axiosbaseurl/ADMRELATORIOCALLINK";
 import { tailwindConfig } from "../../utils/Utils";
 // IMAGENS
 import borislogoGradient from "../../images/borisImage/BorisLogoGradient.png";
-// LIBS
-import Modal from "react-modal";
+
 import { BarLoader } from "react-spinners";
 // ICONS
-import { FcSearch } from "react-icons/fc";
 
 function Relatorio01() {
   /* FUNÇÃO QUE GERA O RELATORIO & GRAFICO DE ACESSO AO CLIENTE */
   const [chartData, setChartData] = useState(null);
-  const [modalIsOpen, setModalIsOpen] = useState(false);
+
   useEffect(() => {
     async function fechData() {
       try {
@@ -67,13 +65,7 @@ function Relatorio01() {
     }
     fechData();
   }, []);
-  /*******************************MODAL FUNCTIONS****************************** */
-  function openModal() {
-    setModalIsOpen(true);
-  }
-  function closeModal() {
-    setModalIsOpen(false);
-  }
+
   /****************************************************************** */
   return (
     <div className="flex flex-col col-span-full sm:col-span-6 bg-white shadow-lg rounded-md border border-slate-300 hover:scale-105">
@@ -81,22 +73,8 @@ function Relatorio01() {
         <h2 className="font-semibold text-xl text-gray-600 flex ">
           TOP USUÁRIOS MENSAL
         </h2>
-
-        <button
-          onClick={openModal}
-          className="p-3 rounded text-white hover:bg-indigo-300 "
-        >
-          <FcSearch size={25} />
-        </button>
-
-        <p></p>
       </header>
-      <Modal isOpen={modalIsOpen}>
-        <button onClick={closeModal} className="p-2 bg-indigo-500 text-white">
-          Fechar
-        </button>
-        <Modal01 />
-      </Modal>
+
       {chartData ? (
         <BarChart data={chartData} width="100%" height={248} />
       ) : (

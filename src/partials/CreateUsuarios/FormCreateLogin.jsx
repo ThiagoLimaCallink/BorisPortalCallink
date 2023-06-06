@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import boris from "../../images/borisImage/BorisLogoGradient.png";
 import { useForm } from "../../hooks/useFormHook";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
+import Modal from "react-modal";
 const FormCreateLogin = () => {
   /* FORM DE CRIAÇÃO DE LOGIN */
   const { form, onChangeForm, resetForm } = useForm({
@@ -30,9 +31,23 @@ const FormCreateLogin = () => {
         const dados = response.data;
         console.log(dados);
         resetForm(form);
+        closeModal();
       })
       .catch((err) => console.log(err));
   };
+
+  /** MODAL */
+
+  /**************** MODAL FUNCTIONS *******************/
+  const [modalIsOpen, setModalIsOpen] = useState(false);
+
+  function openModal(e) {
+    e.preventDefault();
+    setModalIsOpen(true);
+  }
+  function closeModal() {
+    setModalIsOpen(false);
+  }
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">
@@ -53,49 +68,49 @@ const FormCreateLogin = () => {
 
                 <div className="lg:col-span-2">
                   <form
-                    onSubmit={createFormUserLogin}
+                    onSubmit={openModal}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
                   >
-                    <div className="md:col-span-2">
-                      <label htmlFor="loginUsuario">Login usuário</label>
-                      <input
-                        type="text"
-                        name="loginUsuario"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value={form.loginUsuario}
-                        required
-                        onChange={onChangeForm}
-                        placeholder="Digite o login do usuário"
-                      />
-                    </div>
-
-                    <div className="md:col-span-1">
-                      <label htmlFor="idPlataforma">ID Plataforma</label>
-                      <input
-                        name="idPlataforma"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
-                        value={form.idPlataforma}
-                        onChange={onChangeForm}
-                        type="number"
-                      />
-                    </div>
-
-                    <div className="md:col-span-1">
-                      <label htmlFor="idUsuario">ID Usuário</label>
+                    <div className="md:col-span-1 ">
+                      <label htmlFor="idUsuario">ID_USUÁRIO</label>
                       <input
                         name="idUsuario"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idUsuario}
                         onChange={onChangeForm}
                         type="number"
                       />
                     </div>
                     <div className="md:col-span-1">
-                      <label htmlFor="idChat">ID Chat</label>
+                      <label htmlFor="idPlataforma">ID_PLATAFORMA</label>
+                      <input
+                        name="idPlataforma"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
+                        value={form.idPlataforma}
+                        onChange={onChangeForm}
+                        type="number"
+                      />
+                    </div>
+
+                    <div className="md:col-span-2">
+                      <label htmlFor="loginUsuario">LOGIN_USUARIO</label>
+                      <input
+                        type="text"
+                        name="loginUsuario"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
+                        value={form.loginUsuario}
+                        required
+                        onChange={onChangeForm}
+                        placeholder="Digite o Login do Usuário"
+                      />
+                    </div>
+
+                    <div className="md:col-span-1">
+                      <label htmlFor="idChat">ID_CHAT</label>
                       <input
                         type="number"
                         name="idChat"
-                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50"
+                        className="h-10 border mt-1 rounded px-4 w-full bg-gray-50 text-center"
                         value={form.idChat}
                         onChange={onChangeForm}
                         required
@@ -113,6 +128,87 @@ const FormCreateLogin = () => {
                     </div>
                   </form>
                 </div>
+                <Modal isOpen={modalIsOpen}>
+                  <div className="p-3 ">
+                    {/* Table */}
+                    <div className="overflow-x-auto">
+                      <table className="table-auto w-full ">
+                        {/* Table header */}
+                        <thead className="text-xs font-semibold uppercase text-slate-400 bg-slate-50">
+                          <tr>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-left">
+                                ID_USUARIO
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-left">
+                                LOGIN_USUARIO
+                              </div>
+                            </th>
+
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                ID_PLATAFORMA
+                              </div>
+                            </th>
+                            <th className="p-2 whitespace-nowrap">
+                              <div className="font-semibold text-center">
+                                ID_CHAT
+                              </div>
+                            </th>
+                          </tr>
+                        </thead>
+                        {/* Table body */}
+                        <tbody className="text-sm divide-y divide-slate-400">
+                          <tr>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="font-medium text-colorBoldIndigo">
+                                  {form.idUsuario}
+                                </div>
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo ">
+                                {form.loginUsuario}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.idPlataforma}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {form.idChat}
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <div>
+                      <div className="border-t mt-4 flex justify-end">
+                        <h2 className="text-gray-600 italic text-lg mt-2 mx-3">
+                          Deseja criar login para usuário citado !?
+                        </h2>
+                        <button
+                          onClick={createFormUserLogin}
+                          className="p-2 bg-green-300 rounded w-24 hover:bg-indigo-100 ease-in-out cursor-pointer font-bold mt-3 mr-3"
+                        >
+                          SIM
+                        </button>
+                        <button
+                          className=" bg-red-300 p-2 rounded w-24 hover:bg-gray-200 ease-in-out cursor-pointer font-bold mt-3 "
+                          onClick={closeModal}
+                        >
+                          NÃO
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </Modal>
               </div>
             </div>
           </div>
