@@ -11,32 +11,33 @@ export const AuthProvider = ({ children }) => {
   const [errorMessage, setErrorMessage] = useState("");
   const [dados, setDados] = useState("");
 
-  const body = {
-    username,
-    password,
-  };
-
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    axios
-      .post(
+    try {
+      const body = {
+        username,
+        password,
+      };
+
+      const response = await axios.post(
         "https://southamerica-east1-boris-callink.cloudfunctions.net/valida_login",
         body
-      )
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.STATUS === true) {
-          setNavigateHome(true);
-          const user = response.data.STATUS === true;
-          const dados = response.data;
-          setDados(dados);
-          setUser(user);
-        } else {
-          setErrorMessage("Senha incorreta. Verifique novamente.");
-        }
-      })
-      .catch((err) => console.log(err));
+      );
+
+      console.log(response.data);
+      if (response.data.STATUS === true) {
+        setNavigateHome(true);
+        const user = response.data.STATUS === true;
+        const dados = response.data;
+        setDados(dados);
+        setUser(user);
+      } else {
+        setErrorMessage("Senha incorreta. Verifique novamente.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const signOut = () => {
@@ -44,7 +45,6 @@ export const AuthProvider = ({ children }) => {
     setUsername("");
     setPassword("");
     setErrorMessage("");
-
     setUser(null);
   };
 

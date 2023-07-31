@@ -1,25 +1,23 @@
-import React, { useState } from "react";
+/********* Header COMPONENT*******/
 import Notifications from "./header/Notifications";
 import UserMenu from "./header/UserMenu";
 
 function Header({ sidebarOpen, setSidebarOpen }) {
-  const [searchModalOpen, setSearchModalOpen] = useState(false);
+  const handleSidebarToggle = (e) => {
+    e.stopPropagation();
+    setSidebarOpen(!sidebarOpen);
+  };
 
   return (
     <header className="sticky top-0 bg-white border-b border-slate-200 z-30">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16 -mb-px">
-          {/* Header: Left side */}
           <div className="flex">
-            {/* Hamburger button */}
             <button
               className="text-slate-500 hover:text-slate-600 lg:hidden"
               aria-controls="sidebar"
               aria-expanded={sidebarOpen}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSidebarOpen(!sidebarOpen);
-              }}
+              onClick={handleSidebarToggle}
             >
               <span className="sr-only">Open sidebar</span>
               <svg
@@ -33,14 +31,9 @@ function Header({ sidebarOpen, setSidebarOpen }) {
               </svg>
             </button>
           </div>
-
-          {/* Header: Right side */}
           <div className="flex items-center">
-            {/* Header: Alerta  */}
             <Notifications />
-
             <hr className="w-px h-6 bg-slate-200 mx-3" />
-            {/*  User */}
             <UserMenu />
           </div>
         </div>

@@ -4,7 +4,6 @@ import { useForm } from "../../hooks/useFormHook";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 import Modal from "react-modal";
 const FormCreateLogin = () => {
-  /* FORM DE CRIAÇÃO DE LOGIN */
   const { form, onChangeForm, resetForm } = useForm({
     idUsuario: "",
     idPlataforma: "",
@@ -29,16 +28,13 @@ const FormCreateLogin = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
+
         resetForm(form);
         closeModal();
       })
       .catch((err) => console.log(err));
   };
 
-  /** MODAL */
-
-  /**************** MODAL FUNCTIONS *******************/
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function openModal(e) {

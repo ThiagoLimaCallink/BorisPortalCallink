@@ -4,7 +4,6 @@ import { useForm } from "../../hooks/useFormHook";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 import Modal from "react-modal";
 const FormCreatePerfil = () => {
-  /* FORM DE CRIAÇÃO DE PERFIL */
   const { form, onChangeForm, resetForm } = useForm({
     idPerfil: "",
     nivel: "",
@@ -33,9 +32,6 @@ const FormCreatePerfil = () => {
       .catch((err) => console.log(err));
   };
 
-  /** MODAL */
-
-  /**************** MODAL FUNCTIONS *******************/
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function openModal(e) {

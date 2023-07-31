@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 function DashboardCard01() {
   return (
     <Link
-      to={"/alerta"}
+      to={"/alertas"}
       className="flex flex-col col-span-full sm:col-span-6 xl:col-span-4 bg-white shadow-lg rounded-sm border border-slate-200 hover:scale-105"
     >
       <div className="px-5 pt-5">

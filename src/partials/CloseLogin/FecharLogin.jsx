@@ -14,12 +14,6 @@ const FecharLogin = () => {
     idLogin: "",
   });
 
-  const useEffect =
-    (() => {
-      CloseLogin();
-    },
-    []);
-
   const dados = {
     escolha: "login",
     processo: "fechar",
@@ -34,7 +28,7 @@ const FecharLogin = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
+
         resetForm(form);
       })
       .catch((err) => console.log(err));
@@ -45,7 +39,6 @@ const FecharLogin = () => {
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
-    console.log("test");
   }
   function closeModal() {
     setModalIsOpen(false);
@@ -60,7 +53,7 @@ const FecharLogin = () => {
       transform: "translate(-50%, -50%)",
     },
   };
-  /**************** ########## *******************/
+
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">

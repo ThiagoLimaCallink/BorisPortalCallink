@@ -1,7 +1,12 @@
+/********* SIDEBAR COMPONENT*******/
+
+// HOOKS
 import React, { useState, useEffect, useRef } from "react";
+// LIBS
 import { NavLink, useLocation } from "react-router-dom";
+// IMGS
 import boris from "../images/borisImage/logoboris.png";
-import borisProduto from "../images/borisImage/BorisLogo.png";
+import borisPortal from "../images/borisImage/borislogoportal.png";
 
 import SidebarLinkGroup from "./SidebarLinkGroup";
 
@@ -55,8 +60,9 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
   return (
     <div>
       {/* Sidebar backdrop (mobile only) */}
+
       <div
-        className={`fixed inset-0 bg-colorBoldIndigo bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
+        className={`fixed inset-0 bg-opacity-30 z-40 lg:hidden lg:z-auto transition-opacity duration-200 ${
           sidebarOpen ? "opacity-100" : "opacity-0 pointer-events-none"
         }`}
         aria-hidden="true"
@@ -66,7 +72,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
       <div
         id="sidebar"
         ref={sidebar}
-        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-slate-800 p-4 transition-all duration-200 ease-in-out ${
+        className={`flex flex-col absolute z-40 left-0 top-0 lg:static lg:left-auto lg:top-auto lg:translate-x-0 h-screen overflow-y-scroll lg:overflow-y-auto no-scrollbar w-64 lg:w-20 lg:sidebar-expanded:!w-64 2xl:!w-64 shrink-0 bg-slate-800 p-4 transition-all duration-200 ease-in-out sidebar ${
           sidebarOpen ? "translate-x-0" : "-translate-x-64"
         }`}
       >
@@ -92,7 +98,7 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
           {/* Logo */}
           <NavLink end to="/" className="block">
             <img
-              src={borisProduto}
+              src={borisPortal}
               alt="Imagem escrito boris"
               className="w-26 h-16"
             />
@@ -177,22 +183,6 @@ function Sidebar({ sidebarOpen, setSidebarOpen }) {
                             >
                               <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
                                 Home
-                              </span>
-                            </NavLink>
-                          </li>
-                          <li className="mb-1 last:mb-0">
-                            <NavLink
-                              end
-                              to="/dashboard/suporte"
-                              className={({ isActive }) =>
-                                "block transition duration-150 truncate " +
-                                (isActive
-                                  ? "text-indigo-500"
-                                  : "text-slate-400 hover:text-slate-200")
-                              }
-                            >
-                              <span className="text-sm font-medium lg:opacity-0 lg:sidebar-expanded:opacity-100 2xl:opacity-100 duration-200">
-                                Suporte
                               </span>
                             </NavLink>
                           </li>

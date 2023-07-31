@@ -31,7 +31,7 @@ const UpdatedUsersLogin = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
+
         setInterval(() => {
           resetForm(form);
         }, 4000);
@@ -44,7 +44,6 @@ const UpdatedUsersLogin = () => {
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
-    console.log("test");
   }
   function closeModal() {
     setModalIsOpen(false);

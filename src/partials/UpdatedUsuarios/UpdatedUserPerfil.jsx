@@ -1,7 +1,11 @@
+// IMGS
 import boris from "../../images/borisImage/BorisLogoGradient.png";
+// HOOKS
 import { useForm } from "../../hooks/useFormHook";
-import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 import { useEffect, useState } from "react";
+//COMPONENTS
+import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
+//ICONS
 import { FcSearch } from "react-icons/fc";
 const UpdatedUsersPerfil = () => {
   const [dadoFilter, setDadosFilter] = useState([]);
@@ -31,46 +35,37 @@ const UpdatedUsersPerfil = () => {
       .catch((err) => console.log(err));
   };
 
-  /* REQUEST PARA PEGAR DADOS */
-
-  // SEARCH USER CLICK
   const requestApi = {
     escolha: "usuario",
     processo: "leitura",
   };
   useEffect(() => {
-    // Função para buscar os dados da API
     const fetchDados = async () => {
       try {
         const response = await ADM_Gerenciamento.post("/", requestApi); // Substitua '/api/dados' pelo endpoint correto da sua API
         setDadosFilter(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
     };
 
-    // Chama a função de busca dos dados
     fetchDados();
   }, []);
 
   const handleSearch = () => {
     const idPerfil = parseInt(form.idPerfil);
-    // Realize o filtro dos dados com base no ID digitado
+
     const filteredData = dadoFilter.filter(
       (item) => item.ID_PERFIL === idPerfil
     );
     console.log(filteredData);
 
-    // Verifique se o resultado do filtro é válido
     if (filteredData.length > 0) {
-      // Preencha os campos do formulário com os dados filtrados
-      const filteredItem = filteredData[0]; // Considere apenas o primeiro item filtrado
+      const filteredItem = filteredData[0];
       onChangeForm({
         target: { name: "nomePerfil", value: filteredItem.NOME },
       });
     } else {
-      // Caso não haja resultado, você pode mostrar uma mensagem de erro ou limpar os campos do formulário
       alert("ID de usuário não encontrado.");
       resetForm(form);
     }

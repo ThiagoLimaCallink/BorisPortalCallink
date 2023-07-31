@@ -1,9 +1,9 @@
 //HHOKS
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 // AXIOS
 import axios from "axios";
 // IMAGENS
-import borisAlertV1 from "../images/borisImage/borisAlertV1.png";
+import borislogoNova from "../images/borisImage/borisLogoNovo.png";
 // TITLE
 import { Helmet } from "react-helmet";
 // COMPONENT
@@ -16,6 +16,7 @@ const AlertaBoris = () => {
   const [text, setText] = useState("");
   const [message, setMessage] = useState("");
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [animateLogo, setAnimateLogo] = useState(false);
 
   const body = {
     username,
@@ -47,26 +48,28 @@ const AlertaBoris = () => {
       .catch((err) => console.log(err));
   };
 
+  useEffect(() => {
+    setAnimateLogo(true);
+  }, []);
+
   return (
     <>
       <Helmet>
         <title>Alerta Boris</title>
       </Helmet>
-      <div className="flex h-screen overflow-hidden">
+      <div className="flex h-screen overflow-hidden ">
         <Sidebar sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
         <div className="relative flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
           <Header sidebarOpen={sidebarOpen} setSidebarOpen={setSidebarOpen} />
-          <main className="bg-slate-100">
-            <div className=" flex items-center justify-center ">
+          <main className="bg-white ">
+            <div className=" flex items-center justify-center shadow-2xl ">
               <div className="w-10/12 lg:w-9/12 xl:w-10/12 flex  justify-center">
-                <div className=" relative w-full lg:w-1/2 bg-slate-200 rounded-lg lg:rounded-l-none py-24 px-12 shadow-md">
-                  <div>
-                    <img
-                      src={borisAlertV1}
-                      alt="Imagem do Boris Robo Logo"
-                      className="w-72"
-                    />
-                  </div>
+                <div className=" relative w-full lg:w-1/2 rounded-lg lg:rounded-l-none py-24 px-12 shadow-md">
+                  <img
+                    src={borislogoNova}
+                    alt="Boris com nova logo robo branco com azul"
+                    className={animateLogo ? "slideInAnimation" : ""}
+                  />
                   <form className=" w-full" onSubmit={handleMessage}>
                     <div className="mb-4">
                       <label

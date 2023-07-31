@@ -11,12 +11,6 @@ import { FcSearch } from "react-icons/fc";
 // LIBS
 import Modal from "react-modal";
 
-/******************************************************************* */
-
-/**************************************************************** 
-   FUNÇÃO ABAIXO FAZ O POST PARA API, PARA ATUALIZAR OS DADOS ! FAZEMOS MONITORAMENTO
-  DA FUNÇÃO USANDO USEEFFECT 
-  /************************************************************ */
 const UpdatedUser = () => {
   const [dadoFilter, setDadosFilter] = useState([]);
   const { form, onChangeForm, resetForm } = useForm({
@@ -61,14 +55,11 @@ const UpdatedUser = () => {
       .catch((err) => console.log(err));
   };
 
-  /****************************************************************** */
-  // SEARCH USER CLICK
   const requestApi = {
     escolha: "usuario",
     processo: "leitura",
   };
   useEffect(() => {
-    // Função para buscar os dados da API
     const fetchDados = async () => {
       try {
         const response = await ADM_Gerenciamento.post("/", requestApi); // Substitua '/api/dados' pelo endpoint correto da sua API
@@ -78,22 +69,19 @@ const UpdatedUser = () => {
       }
     };
 
-    // Chama a função de busca dos dados
     fetchDados();
   }, []);
   /******BUSCA OS DADOS DO USUARIO BASEADO NO ID *****/
   const handleSearch = () => {
     const idUsuario = parseInt(form.idUsuario);
-    // Realize o filtro dos dados com base no ID digitado
+
     const filteredData = dadoFilter.filter(
       (item) => item.ID_USUARIO === idUsuario
     );
     console.log(filteredData);
 
-    // Verifique se o resultado do filtro é válido
     if (filteredData.length > 0) {
-      // Preencha os campos do formulário com os dados filtrados
-      const filteredItem = filteredData[0]; // Considere apenas o primeiro item filtrado
+      const filteredItem = filteredData[0];
       onChangeForm({
         target: { name: "nome", value: filteredItem.NOME },
       });
@@ -119,7 +107,6 @@ const UpdatedUser = () => {
         target: { name: "departamento", value: filteredItem.DEPARTAMENTO },
       });
     } else {
-      // Caso não haja resultado, você pode mostrar uma mensagem de erro ou limpar os campos do formulário
       alert("ID de usuário não encontrado.");
       resetForm(form);
     }
@@ -130,7 +117,6 @@ const UpdatedUser = () => {
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
-    console.log("test");
   }
   function closeModal() {
     setModalIsOpen(false);
@@ -162,6 +148,14 @@ const UpdatedUser = () => {
                 </div>
 
                 <div className="lg:col-span-2 mt-16">
+                  <div className="md:col-span-1">
+                    <button
+                      onClick={handleSearch}
+                      className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200 text-center"
+                    >
+                      <FcSearch size={25} />
+                    </button>
+                  </div>
                   <form
                     onSubmit={openModal}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
@@ -176,14 +170,6 @@ const UpdatedUser = () => {
                         onChange={onChangeForm}
                         required
                       />
-                    </div>
-                    <div className="md:col-span-1">
-                      <button
-                        onClick={handleSearch}
-                        className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200 text-center"
-                      >
-                        <FcSearch size={25} />
-                      </button>
                     </div>
 
                     <div className="md:col-span-5">

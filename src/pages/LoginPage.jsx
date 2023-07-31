@@ -7,9 +7,12 @@ import { BsFillEyeSlashFill } from "react-icons/bs";
 import borisLogoGradient from "../images/borisImage/BorisLogoGradient.png";
 import borisWallpaper from "../images/borisImage/Workingboris.gif";
 import { AuthContext } from "../hooks/useAuthLogin";
+import { BeatLoader } from "react-spinners";
+import { css } from "@emotion/react";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [loading, setLoading] = useState(false);
   const {
     handleLogin,
     username,
@@ -24,12 +27,30 @@ const Login = () => {
     setShowPassword(!showPassword);
   };
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    // Simula um atraso de 2 segundos para exibir a animação de carregamento
+    await new Promise((resolve) => setTimeout(resolve, 5000));
+
+    setLoading(false);
+
+    handleLogin(e);
+  };
+
+  const override = css`
+    display: block;
+    margin: 0 auto;
+  `;
+
   return (
     <>
       <Helmet>
         <title>Login Portal Boris</title>
       </Helmet>
-      <div className="bg-gradient-to-r from-indigo-500 h-screen overflow-hidden flex items-center justify-center  ">
+      <div className="bg-gradient-to-r from-gray-900 to-indigo-600  h-screen overflow-hidden flex items-center justify-center  ">
         <div className="w-10/12 lg:w-9/12 xl:w-7/12 flex z-50">
           <div
             className="w-full h-auto hidden lg:block lg:w-1/2 bg-cover bg-top rounded-lg lg:rounded-r-none shadow-md z-50"
@@ -43,7 +64,7 @@ const Login = () => {
                 className="w-24"
               />
             </div>
-            <form className="bg-white" onSubmit={handleLogin}>
+            <form className="bg-white" onSubmit={handleFormSubmit}>
               <div className="mb-4">
                 <label
                   className="block mb-2 text-sm font-bold"
@@ -97,8 +118,17 @@ const Login = () => {
                 <button
                   className="w-full p-3 font-bold text-colorBoldIndigo bg-blue-300 hover:bg-blue-500  focus:outline-none"
                   type="submit"
+                  disabled={loading}
                 >
-                  Logar
+                  {loading ? (
+                    <BeatLoader
+                      color={"#ffffff"}
+                      css={override}
+                      loading={loading}
+                    />
+                  ) : (
+                    "Logar"
+                  )}{" "}
                 </button>
               </div>
               <hr className="mb-4 border-t" />

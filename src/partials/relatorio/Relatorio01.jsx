@@ -12,16 +12,15 @@ import { BarLoader } from "react-spinners";
 // ICONS
 
 function Relatorio01() {
-  /* FUNÇÃO QUE GERA O RELATORIO & GRAFICO DE ACESSO AO CLIENTE */
   const [chartData, setChartData] = useState(null);
 
   useEffect(() => {
     async function fechData() {
       try {
         const dados = {
-          relatorio: "Analítico Usuários",
+          relatorio: "Acesso por Caminho",
           parametros: {
-            ID_PERIODO: 7,
+            ID_PERIODO: 9,
           },
         };
 

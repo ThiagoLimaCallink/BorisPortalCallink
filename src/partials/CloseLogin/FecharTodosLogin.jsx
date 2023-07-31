@@ -8,7 +8,6 @@ import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 import Modal from "react-modal";
 
 const FecharTodosLogin = () => {
-  /* END POINT DE FECHAR TODOS OS LOGINS */
   const { form, onChangeForm, resetForm } = useForm({
     idUsuario: "",
   });
@@ -27,7 +26,6 @@ const FecharTodosLogin = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
         resetForm(form);
       })
       .catch((err) => console.log(err));
@@ -38,7 +36,6 @@ const FecharTodosLogin = () => {
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
-    console.log("test");
   }
   function closeModal() {
     setModalIsOpen(false);
@@ -53,7 +50,7 @@ const FecharTodosLogin = () => {
       transform: "translate(-50%, -50%)",
     },
   };
-  /**************** ########## *******************/
+
   return (
     <>
       <div className="min-h-screen p-6 bg-gray-100 flex items-center justify-center">

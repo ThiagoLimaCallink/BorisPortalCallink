@@ -24,7 +24,7 @@ function AllRelatorios() {
               {/* * ACESSO POR USUÁRIO */}
               <Relatorio01 />
               {/** ACESSO POR CAMINHO */}
-              <Relatorio02 />
+              {/* <Relatorio02 /> */}
             </div>
           </div>
         </main>

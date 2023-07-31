@@ -8,7 +8,6 @@ import InputMask from "react-input-mask";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 
 const formCreateUser = () => {
-  /* END POINT DE CRIAÇÃO DE LOGIN */
   const { form, onChangeForm, resetForm } = useForm({
     nome: "",
     email: "",
@@ -44,7 +43,7 @@ const formCreateUser = () => {
 
       .then((response) => {
         const dados = response.data;
-        console.log(dados);
+
         resetForm(form);
       })
       .catch((err) => console.log(err));

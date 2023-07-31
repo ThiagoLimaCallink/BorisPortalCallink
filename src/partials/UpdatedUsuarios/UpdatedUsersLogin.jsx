@@ -50,7 +50,6 @@ const UpdatedUsersLogin = () => {
       try {
         const response = await ADM_Gerenciamento.post("/", requestApi); // Substitua '/api/dados' pelo endpoint correto da sua API
         setDadosFilter(response.data);
-        console.log(response.data);
       } catch (error) {
         console.log(error);
       }
@@ -64,7 +63,6 @@ const UpdatedUsersLogin = () => {
     const idLogin = parseInt(form.idLogin);
     // Realize o filtro dos dados com base no ID digitado
     const filteredData = dadoFilter.filter((item) => item.ID_LOGIN === idLogin);
-    console.log(filteredData);
 
     // Verifique se o resultado do filtro é válido
     if (filteredData.length > 0) {
@@ -88,7 +86,6 @@ const UpdatedUsersLogin = () => {
   function openModal(e) {
     e.preventDefault();
     setModalIsOpen(true);
-    console.log("test");
   }
   function closeModal() {
     setModalIsOpen(false);
@@ -118,6 +115,14 @@ const UpdatedUsersLogin = () => {
                 </div>
 
                 <div className="lg:col-span-2">
+                  <div className="mb-2">
+                    <button
+                      onClick={handleSearch}
+                      className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200"
+                    >
+                      <FcSearch size={25} />
+                    </button>
+                  </div>
                   <form
                     onSubmit={openModal}
                     className="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5"
@@ -131,14 +136,6 @@ const UpdatedUsersLogin = () => {
                         onChange={onChangeForm}
                         type="number"
                       />
-                    </div>
-                    <div className="md:col-span-1">
-                      <button
-                        onClick={handleSearch}
-                        className="h-10 border mt-6 rounded px-4  hover:bg-indigo-200"
-                      >
-                        <FcSearch size={25} />
-                      </button>
                     </div>
 
                     <div className="md:col-span-2">

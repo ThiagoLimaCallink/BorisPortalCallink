@@ -8,13 +8,11 @@ import Transition from "../../utils/Transition";
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 
 function Notifications() {
-  //* NOTIFICAÇÕES */
   const [dropdownOpen, setDropdownOpen] = useState(false);
 
   const trigger = useRef(null);
   const dropdown = useRef(null);
 
-  // close on click outside
   useEffect(() => {
     const clickHandler = ({ target }) => {
       if (
@@ -29,7 +27,6 @@ function Notifications() {
     return () => document.removeEventListener("click", clickHandler);
   });
 
-  // close if the esc key is pressed
   useEffect(() => {
     const keyHandler = ({ keyCode }) => {
       if (!dropdownOpen || keyCode !== 27) return;
@@ -39,19 +36,16 @@ function Notifications() {
     return () => document.removeEventListener("keydown", keyHandler);
   });
 
-  /******************************* */
   const [niver, setNiver] = useState([]);
   const requestApi = {
     escolha: "info",
     processo: "aniversario",
   };
-  /**HOOK REQUEST AUTOPLAY  API */
+
   useEffect(() => {
     pushNiver();
   }, []);
-  /******************************* */
 
-  /**FUNCTION POST API THIAGO LIMA */
   const pushNiver = async () => {
     try {
       const response = await ADM_Gerenciamento.post("/", requestApi);
@@ -62,10 +56,6 @@ function Notifications() {
       console.log(err);
     }
   };
-
-  /************************************* */
-
-  /*******************************MODAL FUNCTIONS****************************** */
 
   let data = new Date();
   let dia = String(data.getDate()).padStart(2, 0);
@@ -123,45 +113,65 @@ function Notifications() {
           </div>
           <ul className="overflow-auto">
             <li className="border-b border-slate-200 last:border-0">
-              <Link
+              <div
                 className="block py-2 px-4 hover:bg-slate-50"
-                to="#0"
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
                 <span className=" block text-sm mb-2">
                   📣{" "}
-                  <span className="font-medium text-slate-800 text-center text-xl ">
+                  <span className="font-medium text-slate-800 text-center text-xl  ">
                     Notificações de hoje
                   </span>{" "}
                   <br />
                   {niver ? (
-                    <div>
-                      <h3 className="font-bold p-2 bg-slate-200 text-center mt-2">
-                        Aniversariantes do Dia 🥳
-                      </h3>
+                    <div className="mt-4 ">
                       {niver.map((item, index) => (
                         <div
                           key={index}
-                          className="border-b-3 mt-2 text-gray-600 bg-slate-50   "
+                          className=" bg-gray-900 flex items-center justify-center mb-6"
                         >
-                          <h3 className="font-bold">
-                            <span>{item.NOME}</span>
-                          </h3>
-                          <h4 className="font-bold mb-3">
-                            ESTÁ FAZENDO HOJE: {item.IDADE} ANOS
-                          </h4>
-                          <h5 className="text-sm mb-3">
-                            <strong>DEPARTAMENTO:</strong> {item.DEPARTAMENTO}
-                          </h5>
-                          <h5 className="text-sm mb-4 ">
-                            <strong>LOGIN_USUARIO:</strong> {item.LOGIN_USUARIO}
-                          </h5>
-                          <Link
-                            to={"/alerta"}
-                            className="p-1 border-2 bg-indigo-200 hover:bg-slate-400  ease-in-out rounded my-4"
-                          >
-                            Desejar Parabéns
-                          </Link>
+                          <div className="relative w-64">
+                            <div className="absolute -right-4 -bottom-4 bg-indigo-200 h-full w-full rounded-xl"></div>
+
+                            <div className="relative bg-gray-800 text-gray-50 rounded-xl p-8 space-y-4">
+                              <div className="h-2 w-20 bg-indigo-200 "></div>
+
+                              <div className="text-xl font-extrabold text-white">
+                                Aniversariante 🥳
+                              </div>
+                              <p>{item.NOME}</p>
+                              <p className="text-xs  text-gray-400">
+                                ESTÁ COMPLETANDO: {item.IDADE} ANOS
+                              </p>
+                              <p className="text-xs  text-gray-400">
+                                DEPARTAMENTO: {item.DEPARTAMENTO}
+                              </p>
+                              <p className="text-xs  text-gray-400">
+                                LOGIN_USUARIO: {item.LOGIN_USUARIO}
+                              </p>
+
+                              <Link
+                                to={"/alertas"}
+                                className=" text-indigo-400 font-bold tracking-wide flex"
+                              >
+                                <span>Desejar Parabéns</span>
+                                <svg
+                                  className="w-4 h-4 ml-2"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                                  />
+                                </svg>
+                              </Link>
+                            </div>
+                          </div>
                         </div>
                       ))}
                     </div>
@@ -170,10 +180,10 @@ function Notifications() {
                   )}
                 </span>
 
-                <span className="block  text-xs font-medium text-slate-400">
+                <span className=" text-xs font-medium flex  justify-end text-slate-400 mt-6">
                   {dataAtual}
                 </span>
-              </Link>
+              </div>
             </li>
           </ul>
         </div>

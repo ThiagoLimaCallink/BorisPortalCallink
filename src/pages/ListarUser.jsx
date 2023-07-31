@@ -42,7 +42,6 @@ const ListarUser = () => {
 
   const userList = data;
 
-  console.log(userList);
   if (error) {
     return <div>Error loading data</div>;
   }
@@ -55,12 +54,14 @@ const ListarUser = () => {
     );
   }
 
-  const handleFilterName = (user, isSearchClicked) => {
-    if (!isSearchClicked) {
+  const handleFilterName = (user) => {
+    if (!name) {
       return true;
     }
+
     const userNome = user?.NOME ?? "";
-    return userNome.toLowerCase().includes(name.toLowerCase());
+    const searchName = name.toLowerCase().trim();
+    return userNome.toLowerCase().includes(searchName);
   };
 
   /* PAGINAÇÃO */
@@ -184,75 +185,76 @@ const ListarUser = () => {
                   </thead>
                   {/* Table body */}
                   <tbody className="text-sm divide-y divide-slate-400">
-                    {userList
-                      .filter(handleFilterName)
-                      .slice(firstItemIndex, firstItemIndex + pages)
-                      .map((user, index) => (
-                        <tr key={index}>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="font-medium text-colorBoldIndigo">
-                                {user.ID_USUARIO}
+                    {userList &&
+                      userList
+                        .filter((user) => handleFilterName(user, !!name))
+                        .slice(firstItemIndex, firstItemIndex + pages)
+                        .map((user, index) => (
+                          <tr key={index}>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="font-medium text-colorBoldIndigo">
+                                  {user.ID_USUARIO}
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="text-left">{user.ID_CALLINK}</div>
-                          </td>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-left">{user.ID_CALLINK}</div>
+                            </td>
 
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.NOME}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.ID_PERFIL}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.ID_ACESSO}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.TELEFONE}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.DEPARTAMENTO}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.EMAIL}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.DAT_NASCIMENTO}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.ID_CALLINK}
-                            </div>
-                          </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.NOME}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.ID_PERFIL}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.ID_ACESSO}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.TELEFONE}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.DEPARTAMENTO}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.EMAIL}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.DAT_NASCIMENTO}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.ID_CALLINK}
+                              </div>
+                            </td>
 
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.FLG_VALIDA_ESCALA}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.FLG_ATIVO}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.FLG_VALIDA_ESCALA}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.FLG_ATIVO}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                   </tbody>
                 </table>
               </div>

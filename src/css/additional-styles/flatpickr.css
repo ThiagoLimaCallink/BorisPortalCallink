@@ -229,3 +229,19 @@ span.flatpickr-weekday {
 .flatpickr-calendar.arrowBottom::after {
     display: none;
 }
+
+@keyframes slide-in {
+    from {
+      transform: translateX(-100%);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+  
+  .slideInAnimation {
+    animation: slide-in 0.9s ease-in-out forwards;
+  }
+  

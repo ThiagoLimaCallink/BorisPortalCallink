@@ -39,8 +39,6 @@ const ListaLogin = () => {
 
   const userList = data;
 
-  console.log(userList);
-
   if (error) {
     return <div>Error loading data</div>;
   }
@@ -53,12 +51,14 @@ const ListaLogin = () => {
     );
   }
 
-  const handleFilterName = (user, isSearchClicked) => {
-    if (!isSearchClicked) {
+  const handleFilterName = (user) => {
+    if (!name) {
       return true;
     }
+
     const userNome = user?.NOME ?? "";
-    return userNome.toLowerCase().includes(name.toLowerCase());
+    const searchName = name.toLowerCase().trim();
+    return userNome.toLowerCase().includes(searchName);
   };
 
   /********************************************* */
@@ -148,39 +148,40 @@ const ListaLogin = () => {
                   </thead>
                   {/* Table body */}
                   <tbody className="text-sm divide-y divide-slate-400">
-                    {userList
-                      .filter(handleFilterName)
-                      .slice(firstItemIndex, firstItemIndex + pages)
-                      .map((user, index) => (
-                        <tr key={index}>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="flex items-center">
-                              <div className="font-medium text-colorBoldIndigo">
-                                {user.ID_LOGIN}
+                    {userList &&
+                      userList
+                        .filter((user) => handleFilterName(user, !!name))
+                        .slice(firstItemIndex, firstItemIndex + pages)
+                        .map((user, index) => (
+                          <tr key={index}>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="flex items-center">
+                                <div className="font-medium text-colorBoldIndigo">
+                                  {user.ID_LOGIN}
+                                </div>
                               </div>
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className="text-left">{user.ID_USUARIO}</div>
-                          </td>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className="text-left">{user.ID_USUARIO}</div>
+                            </td>
 
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.ID_PLATAFORMA}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.LOGIN_USUARIO}
-                            </div>
-                          </td>
-                          <td className="p-2 whitespace-nowrap">
-                            <div className=" text-colorBoldIndigo text-center">
-                              {user.NOME}
-                            </div>
-                          </td>
-                        </tr>
-                      ))}
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.ID_PLATAFORMA}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.LOGIN_USUARIO}
+                              </div>
+                            </td>
+                            <td className="p-2 whitespace-nowrap">
+                              <div className=" text-colorBoldIndigo text-center">
+                                {user.NOME}
+                              </div>
+                            </td>
+                          </tr>
+                        ))}
                   </tbody>
                 </table>
               </div>

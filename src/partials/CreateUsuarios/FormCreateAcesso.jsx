@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+//IMGS
 import boris from "../../images/borisImage/BorisLogoGradient.png";
+//HOOKS
 import { useForm } from "../../hooks/useFormHook";
+import React, { useState } from "react";
+//COMPONETS
 import ADM_Gerenciamento from "../../utils/axiosbaseurl/ADMGERENCIAMENTO";
 // LIBS
 import Modal from "react-modal";
 const FormCreateAcesso = () => {
-  /* FORM DE CRIAÇÃO DE USUÁRIO */
   const { form, onChangeForm, resetForm } = useForm({
     nomeAcesso: "",
     idAcesso: "",
@@ -33,7 +35,7 @@ const FormCreateAcesso = () => {
       })
       .catch((err) => console.log(err));
   };
-  /* MODAL FUCTIONS */
+
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
   function openModal(e) {
